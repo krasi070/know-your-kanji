@@ -2,8 +2,7 @@ extends VBoxContainer
 
 enum State {HIDE_KANJI, SHOW_KANJI, FINISHED_REVIEW}
 
-const FINISHED_REVIEW_MSG = "Review Finished"
-const FINISHED_REVIEW_KAOMOJI = "(￣▽￣)"
+const FINISHED_REVIEW_MSG = "Review Finished (￣▽￣)"
 
 var state setget switch_state
 var correct := 0
@@ -104,15 +103,14 @@ func finish_review() -> void:
 	# Hide and disable reveal button
 	reveal_button.hide()
 	reveal_button.disabled = true
-	# Show kanji answer
-	kanji_label.show()
+	# Hide kanji answer
+	kanji_label.hide()
 	# Hide and disable correct/wrong buttons
 	$ButtonContainer.hide()
 	correct_button.disabled = true
 	wrong_button.disabled = true
 	# Show finish review messages
 	meanings_label.text = FINISHED_REVIEW_MSG
-	kanji_label.text = FINISHED_REVIEW_KAOMOJI
 
 
 func open_dialog(title: String, msg: String) -> void:
