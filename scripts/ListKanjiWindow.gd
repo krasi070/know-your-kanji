@@ -1,17 +1,18 @@
 extends VBoxContainer
 
-const PATH := "res://data/kanji.json"
 const FORMAT := " %d %s %1.2f%% [%d/%d/%d] (%1.2f)"
 const PAGE_SIZE := 50
 
 var page := 1
 var last_page : int
+var kanji_manager
 var kanji_arr : Array 
+
 
 func _ready():
 	# Load kanji data array
-	load_kanji_arr()
-	kanji_arr.sort_custom(self, "kanji_comparison")
+	kanji_manager = load("res://scripts/KanjiManager.gd").new()
+	kanji_arr = kanji_manager.get_sorted_kanji_arr()
 	# Set last page
 	last_page = kanji_arr.size() / PAGE_SIZE
 	if kanji_arr.size() % PAGE_SIZE > 0:
@@ -56,23 +57,3 @@ func next_page() -> void:
 func previous_page() -> void:
 	page = max(page - 1, 1)
 	show_page()
-
-
-func load_kanji_arr() -> void:
-	var json := read_file(PATH)
-	kanji_arr = JSON.parse(json).result
-
-
-func read_file(path: String) -> String:
-	var file := File.new()
-	# Check if file exists and can be read
-	if file.open(path, File.READ) != OK:
-		return ""
-	var content := file.get_as_text()
-	file.close()
-	return content
-
-
-func kanji_comparison(a, b) -> bool:
-	# Descending weight comparison
-	return a["Weight"] > b["Weight"]

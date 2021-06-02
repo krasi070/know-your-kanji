@@ -1,12 +1,12 @@
 extends VBoxContainer
 
-const PATH := "res://data/kanji.json"
-
 var kanji_input
 var meaninings_input
+var kanji_manager
 
 
 func _ready():
+	kanji_manager = load("res://scripts/KanjiManager.gd").new()
 	kanji_input = $InputPanel/InputContainer/KanjiInputRow/LineEdit
 	meaninings_input = $InputPanel/InputContainer/MeaningsInputRow/LineEdit
 	$AddButton.connect("button_up", self, "_on_AddButton_button_up")
@@ -37,47 +37,13 @@ func _on_AddButton_button_up() -> void:
 	
 func add_kanji(kanji: String, meanings: String) -> bool:
 	# Get the data from the file and add the new kanji
-	var json_text = read_file(PATH)
+	var json_text = kanji_manager.read_file()
 	var json : Array = JSON.parse(json_text).result
-	var kanji_json_data := create_json_kanji_data(kanji, meanings)
+	var kanji_json_data : Dictionary = kanji_manager.create_json_kanji_data(kanji, meanings)
 	json.append(kanji_json_data)
 	# Convert json into string and save it into the file
 	var new_json_text := JSON.print(json)
-	return write_file(PATH, new_json_text)
-
-
-func create_json_kanji_data(kanji: String, meanings: String) -> Dictionary:
-	return {
-		"Kanji": kanji,
-		"Meaning": meanings,
-		"LastReview": "0001-01-01T00:00:00",
-		"LastMistake": "0001-01-01T00:00:00",
-		"Appearances": 0,
-		"Correct": 0,
-		"Wrong": 0,
-		"Weight": 1000.0,
-		"CorrectPercentage": 0.0,
-	}
-
-
-func write_file(path: String, data: String) -> bool:
-	var file := File.new()
-	# Check if file exists and can be written in
-	if file.open(path, File.WRITE) != OK:
-		return false
-	file.store_string(data)
-	file.close()
-	return true
-
-
-func read_file(path: String) -> String:
-	var file := File.new()
-	# Check if file exists and can be read
-	if file.open(path, File.READ) != OK:
-		return ""
-	var content := file.get_as_text()
-	file.close()
-	return content
+	return kanji_manager.write_file(new_json_text)
 
 
 func open_dialog(title: String, msg: String) -> void:
