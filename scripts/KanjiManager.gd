@@ -13,9 +13,11 @@ func get_kanji_arr() -> Array:
 	return kanji_arr
 
 
-func get_sorted_kanji_arr() -> Array:
+func get_sorted_kanji_arr(amount: int = 0) -> Array:
 	var sorted = kanji_arr.duplicate(true)
 	sorted.sort_custom(self, "kanji_weight_comparison")
+	if amount > 0:
+		return sorted.slice(0, amount - 1)
 	return sorted
 
 

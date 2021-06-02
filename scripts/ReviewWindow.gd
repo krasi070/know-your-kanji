@@ -1,11 +1,16 @@
 extends VBoxContainer
 
-enum State {HIDE_KANJI, SHOW_KANJI}
+enum State {HIDE_KANJI, SHOW_KANJI, FINISHED_REVIEW}
+
+const FINISHED_REVIEW_MSG = "Review Finished"
+const FINISHED_REVIEW_KAOMOJI = "(￣▽￣)"
 
 var state setget switch_state
 var correct := 0
 var wrong := 0
 var left := 0
+var kanji_manager
+var kanji_arr : Array
 
 onready var correct_counter := $Panel/CounterContainer/CorrectCount
 onready var wrong_counter := $Panel/CounterContainer/WrongCount
@@ -18,6 +23,14 @@ onready var wrong_button := $ButtonContainer/Wrong
 
 
 func _ready():
+	# Prepare kanji to review
+	kanji_manager = load("res://scripts/KanjiManager.gd").new()
+	kanji_arr = kanji_manager.get_sorted_kanji_arr(1) # Hardcoded value
+	kanji_arr = randomize_arr(kanji_arr)
+	print(kanji_arr)
+	left = 1 # Hardcoded value
+	go_to_next_kanji()
+	# Add button signal connections
 	reveal_button.connect("button_up", self, "switch_state", [State.SHOW_KANJI])
 	correct_button.connect("button_up", self, "_on_Correct_button_up")
 	wrong_button.connect("button_up", self, "_on_Wrong_button_up")
@@ -37,10 +50,16 @@ func _on_Wrong_button_up() -> void:
 
 
 func go_to_next_kanji() -> void:
-	left -= 1
-	left_counter.text = "Left: %d" % left
-	switch_state(State.HIDE_KANJI)
-	# Continue to next kanji
+	if left > 0:
+		left -= 1
+		left_counter.text = "Left: %d" % left
+		var kanji = kanji_arr.pop_back()
+		kanji_label.text = kanji["Kanji"]
+		meanings_label.text = kanji["Meaning"]
+		switch_state(State.HIDE_KANJI)
+	else:
+		# No next kanji
+		switch_state(State.FINISHED_REVIEW)
 
 
 func switch_state(s) -> void:
@@ -51,6 +70,8 @@ func switch_state(s) -> void:
 		State.SHOW_KANJI:
 			show_kanji()
 			state = s
+		State.FINISHED_REVIEW:
+			finish_review()
 		_:
 			open_dialog("Error", "Tried to access an uknown state!")
 
@@ -79,5 +100,31 @@ func show_kanji() -> void:
 	wrong_button.disabled = false
 
 
+func finish_review() -> void:
+	# Hide and disable reveal button
+	reveal_button.hide()
+	reveal_button.disabled = true
+	# Show kanji answer
+	kanji_label.show()
+	# Hide and disable correct/wrong buttons
+	$ButtonContainer.hide()
+	correct_button.disabled = true
+	wrong_button.disabled = true
+	# Show finish review messages
+	meanings_label.text = FINISHED_REVIEW_MSG
+	kanji_label.text = FINISHED_REVIEW_KAOMOJI
+
+
 func open_dialog(title: String, msg: String) -> void:
 	pass
+
+
+func randomize_arr(arr: Array) -> Array:
+	randomize()
+	var rand_arr = []
+	var indexes = range(arr.size())
+	for i in range(arr.size()):
+		var rand_index = randi() % indexes.size()
+		rand_arr.append(arr[indexes[rand_index]])
+		indexes.remove(rand_index)
+	return rand_arr
