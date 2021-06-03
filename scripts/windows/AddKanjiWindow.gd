@@ -41,9 +41,8 @@ func add_kanji(kanji: String, meanings: String) -> bool:
 	var json : Array = JSON.parse(json_text).result
 	var kanji_json_data : Dictionary = kanji_manager.create_json_kanji_data(kanji, meanings)
 	json.append(kanji_json_data)
-	# Convert json into string and save it into the file
-	var new_json_text := JSON.print(json)
-	return kanji_manager.write_file(new_json_text)
+	# Save it into the file
+	return kanji_manager.save_kanji_arr(json)
 
 
 func open_dialog(title: String, msg: String) -> void:

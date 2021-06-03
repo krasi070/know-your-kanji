@@ -8,7 +8,10 @@ var state setget switch_state
 var correct := 0
 var wrong := 0
 var left := 0
+var review_amount := 2
+var kanji_arr_index := -1
 var kanji_manager
+var date_helper
 var kanji_arr : Array
 
 onready var correct_counter := $Panel/CounterContainer/CorrectCount
@@ -24,10 +27,9 @@ onready var wrong_button := $ButtonContainer/Wrong
 func _ready():
 	# Prepare kanji to review
 	kanji_manager = load("res://scripts/KanjiManager.gd").new()
-	kanji_arr = kanji_manager.get_sorted_kanji_arr(1) # Hardcoded value
+	kanji_arr = kanji_manager.get_sorted_kanji_arr(review_amount)
 	kanji_arr = randomize_arr(kanji_arr)
-	print(kanji_arr)
-	left = 1 # Hardcoded value
+	left = review_amount
 	go_to_next_kanji()
 	# Add button signal connections
 	reveal_button.connect("button_up", self, "switch_state", [State.SHOW_KANJI])
@@ -39,25 +41,29 @@ func _ready():
 func _on_Correct_button_up() -> void:
 	correct += 1
 	correct_counter.text = "Correct: %d" % correct
+	kanji_manager.update_kanji_with_correct(kanji_arr[kanji_arr_index])
 	go_to_next_kanji()
 	
 	
 func _on_Wrong_button_up() -> void:
 	wrong += 1
 	wrong_counter.text = "Wrong: %d" % wrong
+	kanji_manager.update_kanji_with_wrong(kanji_arr[kanji_arr_index])
 	go_to_next_kanji()
 
 
 func go_to_next_kanji() -> void:
 	if left > 0:
 		left -= 1
+		kanji_arr_index += 1
 		left_counter.text = "Left: %d" % left
-		var kanji = kanji_arr.pop_back()
+		var kanji = kanji_arr[kanji_arr_index]
 		kanji_label.text = kanji["Kanji"]
 		meanings_label.text = kanji["Meaning"]
 		switch_state(State.HIDE_KANJI)
 	else:
 		# No next kanji
+		kanji_manager.save_kanji_arr()
 		switch_state(State.FINISHED_REVIEW)
 
 
