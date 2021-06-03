@@ -3,6 +3,8 @@ extends VBoxContainer
 enum State {HIDE_KANJI, SHOW_KANJI, FINISHED_REVIEW}
 
 const FINISHED_REVIEW_MSG = "Review Finished (￣▽￣)"
+const REVIEW_AMOUNT_INPUT_ERROR_MSG = \
+		"Please enter a valid positive integer in the range [1 - %d]!"
 
 var state setget switch_state
 var correct := 0
@@ -23,19 +25,28 @@ onready var reveal_button := $Panel/MainContainer/Reveal
 onready var correct_button := $ButtonContainer/Correct
 onready var wrong_button := $ButtonContainer/Wrong
 onready var accept_button := $Panel/ReviewAmountContainer/Accept
+onready var error_msg_label := $Panel/ReviewAmountContainer/ErrorMsg
 
 
 func _ready():
 	show_review_amount_container()
-	accept_button.connect("button_up", self, "prepare_review")
+	kanji_manager = load("res://scripts/KanjiManager.gd").new()
+	accept_button.connect("button_up", self, "input_check")
+
+
+func input_check():
+	if _is_amount_valid():
+		review_amount = int($Panel/ReviewAmountContainer/Amount.text)
+		prepare_review()
+	else:
+		var number_of_kanji = kanji_manager.kanji_arr.size()
+		error_msg_label.text = REVIEW_AMOUNT_INPUT_ERROR_MSG % number_of_kanji
+		error_msg_label.show()
 
 
 func prepare_review() -> void:
 	show_main_container()
-	# TODO: Add proper check for non int values
-	review_amount = int($Panel/ReviewAmountContainer/Amount.text)
 	# Prepare kanji to review
-	kanji_manager = load("res://scripts/KanjiManager.gd").new()
 	kanji_arr = kanji_manager.get_sorted_kanji_arr(review_amount)
 	kanji_arr = randomize_arr(kanji_arr)
 	left = review_amount
@@ -114,6 +125,8 @@ func show_review_amount_container() -> void:
 	# Show review amount container
 	$Panel/ReviewAmountContainer.show()
 	accept_button.disabled = false
+	# Hide error message
+	error_msg_label.hide()
 
 
 func show_main_container() -> void:
@@ -164,8 +177,15 @@ func randomize_arr(arr: Array) -> Array:
 	randomize()
 	var rand_arr = []
 	var indexes = range(arr.size())
-	for i in range(arr.size()):
+	for _i in range(arr.size()):
 		var rand_index = randi() % indexes.size()
 		rand_arr.append(arr[indexes[rand_index]])
 		indexes.remove(rand_index)
 	return rand_arr
+
+
+func _is_amount_valid() -> bool:
+	var amount = int($Panel/ReviewAmountContainer/Amount.text)
+	if amount > 0 and amount <= kanji_manager.kanji_arr.size():
+		return true
+	return false
