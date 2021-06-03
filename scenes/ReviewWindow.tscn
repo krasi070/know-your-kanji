@@ -1,7 +1,12 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scripts/windows/ReviewWindow.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/KosugiMaru-Regular.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 20
@@ -13,54 +18,62 @@ size = 20
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=1]
-size = 20
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 2 )
-
 [sub_resource type="DynamicFont" id=4]
 size = 32
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="InputEventAction" id=8]
+[sub_resource type="InputEventAction" id=5]
 action = "reveal_kanji"
 pressed = true
 
-[sub_resource type="ShortCut" id=9]
-shortcut = SubResource( 8 )
+[sub_resource type="ShortCut" id=6]
+shortcut = SubResource( 5 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=7]
 size = 100
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=8]
+size = 22
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 26
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=10]
 size = 28
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="InputEventAction" id=10]
+[sub_resource type="InputEventAction" id=11]
 action = "wrong_kanji"
 
-[sub_resource type="ShortCut" id=11]
-shortcut = SubResource( 10 )
+[sub_resource type="ShortCut" id=12]
+shortcut = SubResource( 11 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=13]
 size = 28
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="InputEventAction" id=12]
+[sub_resource type="InputEventAction" id=14]
 action = "correct_kanji"
 
-[sub_resource type="ShortCut" id=13]
-shortcut = SubResource( 12 )
+[sub_resource type="ShortCut" id=15]
+shortcut = SubResource( 14 )
 
 [node name="ReviewWindow" type="VBoxContainer"]
 margin_right = 780.0
 margin_bottom = 549.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Panel" type="Panel" parent="."]
 margin_right = 780.0
@@ -82,7 +95,7 @@ __meta__ = {
 [node name="CorrectCount" type="Label" parent="Panel/CounterContainer"]
 margin_right = 100.0
 margin_bottom = 21.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0.235294, 0.666667, 0.176471, 1 )
 text = "Correct: 0"
 align = 2
@@ -94,7 +107,7 @@ __meta__ = {
 margin_top = 36.0
 margin_right = 100.0
 margin_bottom = 57.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.729412, 0.0745098, 0.0745098, 1 )
 text = "Wrong: 0"
 align = 2
@@ -106,7 +119,7 @@ __meta__ = {
 margin_top = 72.0
 margin_right = 100.0
 margin_bottom = 93.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "Left: 0"
 align = 2
 __meta__ = {
@@ -129,9 +142,8 @@ __meta__ = {
 }
 
 [node name="Meanings" type="Label" parent="Panel/MainContainer"]
-margin_top = 34.0
 margin_right = 600.0
-margin_bottom = 67.0
+margin_bottom = 33.0
 rect_min_size = Vector2( 600, 0 )
 custom_fonts/font = SubResource( 4 )
 text = "play with, tamper, trifle with"
@@ -145,17 +157,62 @@ margin_top = 63.0
 margin_right = 600.0
 margin_bottom = 102.0
 custom_fonts/font = SubResource( 4 )
-shortcut = SubResource( 9 )
+shortcut = SubResource( 6 )
 text = "Reveal Kanji [Enter]"
 
 [node name="KanjiAnswer" type="Label" parent="Panel/MainContainer"]
-margin_top = 97.0
+margin_top = 63.0
 margin_right = 600.0
-margin_bottom = 198.0
-custom_fonts/font = SubResource( 5 )
+margin_bottom = 164.0
+custom_fonts/font = SubResource( 7 )
 text = "弄"
 align = 1
 valign = 1
+
+[node name="ReviewAmountDialog" type="WindowDialog" parent="."]
+margin_top = 210.0
+margin_right = 780.0
+margin_bottom = 510.0
+rect_min_size = Vector2( 0, 300 )
+custom_fonts/title_font = SubResource( 8 )
+popup_exclusive = true
+window_title = "Review Amount"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ReviewAmountDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 100.0
+margin_top = 50.0
+margin_right = -100.0
+margin_bottom = -50.0
+custom_constants/separation = 25
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ReviewAmountDialog/VBoxContainer"]
+margin_right = 580.0
+margin_bottom = 27.0
+custom_fonts/font = SubResource( 9 )
+text = "How many kanji would you like to review?"
+align = 1
+valign = 1
+
+[node name="Amount" type="LineEdit" parent="ReviewAmountDialog/VBoxContainer"]
+margin_top = 52.0
+margin_right = 580.0
+margin_bottom = 89.0
+custom_fonts/font = SubResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Accept" type="Button" parent="ReviewAmountDialog/VBoxContainer"]
+margin_top = 114.0
+margin_right = 580.0
+margin_bottom = 147.0
+custom_fonts/font = SubResource( 9 )
+text = "Accept"
 
 [node name="ButtonContainer" type="HBoxContainer" parent="."]
 margin_top = 514.0
@@ -169,8 +226,8 @@ margin_left = 65.0
 margin_right = 340.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 275, 0 )
-custom_fonts/font = SubResource( 6 )
-shortcut = SubResource( 11 )
+custom_fonts/font = SubResource( 10 )
+shortcut = SubResource( 12 )
 text = "Wrong [K]"
 
 [node name="Correct" type="Button" parent="ButtonContainer"]
@@ -178,6 +235,6 @@ margin_left = 440.0
 margin_right = 715.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 275, 0 )
-custom_fonts/font = SubResource( 7 )
-shortcut = SubResource( 13 )
+custom_fonts/font = SubResource( 13 )
+shortcut = SubResource( 15 )
 text = "Correct [Spacebar]"

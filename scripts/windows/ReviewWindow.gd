@@ -8,8 +8,8 @@ var state setget switch_state
 var correct := 0
 var wrong := 0
 var left := 0
-var review_amount := 2
 var kanji_arr_index := -1
+var review_amount : int
 var kanji_manager
 var date_helper
 var kanji_arr : Array
@@ -24,7 +24,18 @@ onready var correct_button := $ButtonContainer/Correct
 onready var wrong_button := $ButtonContainer/Wrong
 
 
+# TODO: Fix program lock wif dialog is slid off screen
 func _ready():
+	hide_all()
+	$ReviewAmountDialog/VBoxContainer/Accept.connect("button_up", self, "prepare_review")
+	$ReviewAmountDialog.get_close_button().hide()
+	$ReviewAmountDialog.popup()
+
+
+func prepare_review() -> void:
+	show_all()
+	# TODO: Add proper check for non int values
+	review_amount = int($ReviewAmountDialog/VBoxContainer/Amount.text)
 	# Prepare kanji to review
 	kanji_manager = load("res://scripts/KanjiManager.gd").new()
 	kanji_arr = kanji_manager.get_sorted_kanji_arr(review_amount)
@@ -36,6 +47,7 @@ func _ready():
 	correct_button.connect("button_up", self, "_on_Correct_button_up")
 	wrong_button.connect("button_up", self, "_on_Wrong_button_up")
 	switch_state(State.HIDE_KANJI)
+	$ReviewAmountDialog.hide()
 
 
 func _on_Correct_button_up() -> void:
@@ -43,8 +55,8 @@ func _on_Correct_button_up() -> void:
 	correct_counter.text = "Correct: %d" % correct
 	kanji_manager.update_kanji_with_correct(kanji_arr[kanji_arr_index])
 	go_to_next_kanji()
-	
-	
+
+
 func _on_Wrong_button_up() -> void:
 	wrong += 1
 	wrong_counter.text = "Wrong: %d" % wrong
@@ -91,6 +103,36 @@ func hide_kanji() -> void:
 	$ButtonContainer.hide()
 	correct_button.disabled = true
 	wrong_button.disabled = true
+
+
+func hide_all() -> void:
+	# Hide and disable reveal button
+	reveal_button.hide()
+	reveal_button.disabled = true
+	# Hide kanji answer and meanings
+	kanji_label.hide()
+	meanings_label.hide()
+	# Hide and disable correct/wrong buttons
+	$ButtonContainer.hide()
+	correct_button.disabled = true
+	wrong_button.disabled = true
+	# Hide counter container
+	$Panel/CounterContainer.hide()
+
+
+func show_all() -> void:
+	# Show and enable reveal button
+	reveal_button.show()
+	reveal_button.disabled = false
+	# Show kanji answer and meanings
+	kanji_label.show()
+	meanings_label.show()
+	# Show and enable correct/wrong buttons
+	$ButtonContainer.show()
+	correct_button.disabled = false
+	wrong_button.disabled = false
+	# Show counter container
+	$Panel/CounterContainer.show()
 
 
 func show_kanji() -> void:
