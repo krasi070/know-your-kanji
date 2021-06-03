@@ -186,9 +186,9 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="Panel/ReviewAmountContainer"]
-margin_top = 25.0
-margin_right = 640.0
-margin_bottom = 52.0
+margin_top = 3.0
+margin_right = 600.0
+margin_bottom = 30.0
 custom_fonts/font = SubResource( 8 )
 text = "How many kanji would you like to review?"
 align = 1
@@ -206,18 +206,18 @@ align = 1
 valign = 1
 
 [node name="Amount" type="LineEdit" parent="Panel/ReviewAmountContainer"]
-margin_top = 82.0
-margin_right = 640.0
-margin_bottom = 119.0
+margin_top = 60.0
+margin_right = 600.0
+margin_bottom = 97.0
 custom_fonts/font = SubResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Accept" type="Button" parent="Panel/ReviewAmountContainer"]
-margin_top = 149.0
-margin_right = 640.0
-margin_bottom = 182.0
+margin_top = 127.0
+margin_right = 600.0
+margin_bottom = 160.0
 custom_fonts/font = SubResource( 8 )
 text = "Accept"
 
