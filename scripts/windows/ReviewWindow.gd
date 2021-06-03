@@ -22,20 +22,18 @@ onready var kanji_label := $Panel/MainContainer/KanjiAnswer
 onready var reveal_button := $Panel/MainContainer/Reveal
 onready var correct_button := $ButtonContainer/Correct
 onready var wrong_button := $ButtonContainer/Wrong
+onready var accept_button := $Panel/ReviewAmountContainer/Accept
 
 
-# TODO: Fix program lock wif dialog is slid off screen
 func _ready():
-	hide_all()
-	$ReviewAmountDialog/VBoxContainer/Accept.connect("button_up", self, "prepare_review")
-	$ReviewAmountDialog.get_close_button().hide()
-	$ReviewAmountDialog.popup()
+	show_review_amount_container()
+	accept_button.connect("button_up", self, "prepare_review")
 
 
 func prepare_review() -> void:
-	show_all()
+	show_main_container()
 	# TODO: Add proper check for non int values
-	review_amount = int($ReviewAmountDialog/VBoxContainer/Amount.text)
+	review_amount = int($Panel/ReviewAmountContainer/Amount.text)
 	# Prepare kanji to review
 	kanji_manager = load("res://scripts/KanjiManager.gd").new()
 	kanji_arr = kanji_manager.get_sorted_kanji_arr(review_amount)
@@ -47,7 +45,6 @@ func prepare_review() -> void:
 	correct_button.connect("button_up", self, "_on_Correct_button_up")
 	wrong_button.connect("button_up", self, "_on_Wrong_button_up")
 	switch_state(State.HIDE_KANJI)
-	$ReviewAmountDialog.hide()
 
 
 func _on_Correct_button_up() -> void:
@@ -105,34 +102,32 @@ func hide_kanji() -> void:
 	wrong_button.disabled = true
 
 
-func hide_all() -> void:
-	# Hide and disable reveal button
-	reveal_button.hide()
+func show_review_amount_container() -> void:
+	# Hide and disable buttons
+	$ButtonContainer.hide()
 	reveal_button.disabled = true
-	# Hide kanji answer and meanings
-	kanji_label.hide()
-	meanings_label.hide()
-	# Hide and disable correct/wrong buttons
+	correct_button.disabled = true
+	wrong_button.disabled = true
+	# Hide other containers
+	$Panel/MainContainer.hide()
+	$Panel/CounterContainer.hide()
+	# Show review amount container
+	$Panel/ReviewAmountContainer.show()
+	accept_button.disabled = false
+
+
+func show_main_container() -> void:
+	# Hide and disable buttons
 	$ButtonContainer.hide()
 	correct_button.disabled = true
 	wrong_button.disabled = true
-	# Hide counter container
-	$Panel/CounterContainer.hide()
-
-
-func show_all() -> void:
-	# Show and enable reveal button
-	reveal_button.show()
+	# Show main and counter containers
+	$Panel/MainContainer.show()
 	reveal_button.disabled = false
-	# Show kanji answer and meanings
-	kanji_label.show()
-	meanings_label.show()
-	# Show and enable correct/wrong buttons
-	$ButtonContainer.show()
-	correct_button.disabled = false
-	wrong_button.disabled = false
-	# Show counter container
 	$Panel/CounterContainer.show()
+	# Hide review amount container
+	$Panel/ReviewAmountContainer.hide()
+	accept_button.disabled = true
 
 
 func show_kanji() -> void:

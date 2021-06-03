@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scripts/windows/ReviewWindow.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/KosugiMaru-Regular.ttf" type="DynamicFontData" id=2]
@@ -36,36 +36,31 @@ outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=8]
-size = 22
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=9]
 size = 26
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=9]
 size = 28
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="InputEventAction" id=11]
+[sub_resource type="InputEventAction" id=10]
 action = "wrong_kanji"
 
-[sub_resource type="ShortCut" id=12]
-shortcut = SubResource( 11 )
+[sub_resource type="ShortCut" id=11]
+shortcut = SubResource( 10 )
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="DynamicFont" id=12]
 size = 28
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="InputEventAction" id=14]
+[sub_resource type="InputEventAction" id=13]
 action = "correct_kanji"
 
-[sub_resource type="ShortCut" id=15]
-shortcut = SubResource( 14 )
+[sub_resource type="ShortCut" id=14]
+shortcut = SubResource( 13 )
 
 [node name="ReviewWindow" type="VBoxContainer"]
 margin_right = 780.0
@@ -169,49 +164,45 @@ text = "弄"
 align = 1
 valign = 1
 
-[node name="ReviewAmountDialog" type="WindowDialog" parent="."]
-margin_top = 210.0
-margin_right = 780.0
-margin_bottom = 510.0
-rect_min_size = Vector2( 0, 300 )
-custom_fonts/title_font = SubResource( 8 )
-popup_exclusive = true
-window_title = "Review Amount"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ReviewAmountDialog"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 100.0
-margin_top = 50.0
-margin_right = -100.0
-margin_bottom = -50.0
-custom_constants/separation = 25
+[node name="ReviewAmountContainer" type="VBoxContainer" parent="Panel"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -300.0
+margin_top = -93.0
+margin_right = 300.0
+margin_bottom = 71.0
+custom_constants/separation = 30
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="ReviewAmountDialog/VBoxContainer"]
-margin_right = 580.0
-margin_bottom = 27.0
-custom_fonts/font = SubResource( 9 )
+[node name="Label" type="Label" parent="Panel/ReviewAmountContainer"]
+margin_top = 3.0
+margin_right = 600.0
+margin_bottom = 30.0
+custom_fonts/font = SubResource( 8 )
 text = "How many kanji would you like to review?"
 align = 1
 valign = 1
 
-[node name="Amount" type="LineEdit" parent="ReviewAmountDialog/VBoxContainer"]
-margin_top = 52.0
-margin_right = 580.0
-margin_bottom = 89.0
-custom_fonts/font = SubResource( 9 )
+[node name="Amount" type="LineEdit" parent="Panel/ReviewAmountContainer"]
+margin_top = 60.0
+margin_right = 600.0
+margin_bottom = 97.0
+custom_fonts/font = SubResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Accept" type="Button" parent="ReviewAmountDialog/VBoxContainer"]
-margin_top = 114.0
-margin_right = 580.0
-margin_bottom = 147.0
-custom_fonts/font = SubResource( 9 )
+[node name="Accept" type="Button" parent="Panel/ReviewAmountContainer"]
+margin_top = 127.0
+margin_right = 600.0
+margin_bottom = 160.0
+custom_fonts/font = SubResource( 8 )
 text = "Accept"
 
 [node name="ButtonContainer" type="HBoxContainer" parent="."]
@@ -226,8 +217,8 @@ margin_left = 65.0
 margin_right = 340.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 275, 0 )
-custom_fonts/font = SubResource( 10 )
-shortcut = SubResource( 12 )
+custom_fonts/font = SubResource( 9 )
+shortcut = SubResource( 11 )
 text = "Wrong [K]"
 
 [node name="Correct" type="Button" parent="ButtonContainer"]
@@ -235,6 +226,6 @@ margin_left = 440.0
 margin_right = 715.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 275, 0 )
-custom_fonts/font = SubResource( 13 )
-shortcut = SubResource( 15 )
+custom_fonts/font = SubResource( 12 )
+shortcut = SubResource( 14 )
 text = "Correct [Spacebar]"
