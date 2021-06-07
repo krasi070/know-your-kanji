@@ -3,7 +3,6 @@ extends MarginContainer
 var curr_window : String
 var add_kanji_scene : PackedScene
 var review_scene : PackedScene
-var windows : Dictionary
 
 onready var review_button := $"../MenuContainer/LeftContainer/Review"
 onready var add_kanji_button := $"../MenuContainer/LeftContainer/AddKanji"
@@ -21,18 +20,13 @@ func _ready():
 func open_window(scene: PackedScene, window_name: String, button: Button) -> void:
 	# Only open new window if it is differen from the currently open one
 	if curr_window != window_name:
-		hide_children()
-		if windows.has(window_name):
-			windows[window_name].show()
-		else:
-			var instance := scene.instance()
-			add_child(instance)
-			windows[window_name] = instance
-			button.text = "・" + button.text
+		free_children()
+		var instance := scene.instance()
+		add_child(instance)
 		curr_window = window_name
 
 
-func hide_children() -> void:
+func free_children() -> void:
 	var children = get_children()
 	for i in range(children.size()):
-		children[i].hide()
+		children[i].queue_free()
