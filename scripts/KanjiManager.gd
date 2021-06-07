@@ -1,6 +1,6 @@
 extends Node
 
-const PATH := "res://data/kanji.json"
+const PATH := "user://kanji.json"
 
 var kanji_arr : Array setget rewrite_kanji_arr, get_kanji_arr
 var date_helper
@@ -29,7 +29,8 @@ func rewrite_kanji_arr(new_arr: Array) -> void:
 
 func load_kanji_arr() -> void:
 	var json := read_file()
-	kanji_arr = JSON.parse(json).result
+	var json_parse_result = JSON.parse(json).result
+	kanji_arr = json_parse_result if json_parse_result != null else []
 	update_weights()
 
 
@@ -59,7 +60,8 @@ func create_json_kanji_data(kanji: String, meanings: String) -> Dictionary:
 func write_file(data: String) -> bool:
 	var file := File.new()
 	# Check if file exists and can be written in
-	if file.open(PATH, File.WRITE) != OK:
+	var response = file.open(PATH, File.WRITE)
+	if not(response == OK or response == ERR_FILE_NOT_FOUND):
 		return false
 	file.store_string(data)
 	file.close()

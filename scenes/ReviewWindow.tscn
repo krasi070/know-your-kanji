@@ -40,32 +40,32 @@ size = 26
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="DynamicFont" id=9]
 size = 20
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=10]
 size = 28
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="InputEventAction" id=10]
+[sub_resource type="InputEventAction" id=11]
 action = "wrong_kanji"
 
-[sub_resource type="ShortCut" id=11]
-shortcut = SubResource( 10 )
+[sub_resource type="ShortCut" id=12]
+shortcut = SubResource( 11 )
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=13]
 size = 28
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="InputEventAction" id=13]
+[sub_resource type="InputEventAction" id=14]
 action = "correct_kanji"
 
-[sub_resource type="ShortCut" id=14]
-shortcut = SubResource( 13 )
+[sub_resource type="ShortCut" id=15]
+shortcut = SubResource( 14 )
 
 [node name="ReviewWindow" type="VBoxContainer"]
 margin_right = 780.0
@@ -199,7 +199,7 @@ visible = false
 margin_top = 57.0
 margin_right = 640.0
 margin_bottom = 78.0
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 0.729412, 0.0745098, 0.0745098, 1 )
 text = "Please enter a a valid positive integer in the range [1 - 1000]!"
 align = 1
@@ -233,8 +233,8 @@ margin_left = 65.0
 margin_right = 340.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 275, 0 )
-custom_fonts/font = SubResource( 9 )
-shortcut = SubResource( 11 )
+custom_fonts/font = SubResource( 10 )
+shortcut = SubResource( 12 )
 text = "Wrong [K]"
 
 [node name="Correct" type="Button" parent="ButtonContainer"]
@@ -242,6 +242,6 @@ margin_left = 440.0
 margin_right = 715.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 275, 0 )
-custom_fonts/font = SubResource( 12 )
-shortcut = SubResource( 14 )
+custom_fonts/font = SubResource( 13 )
+shortcut = SubResource( 15 )
 text = "Correct [Spacebar]"

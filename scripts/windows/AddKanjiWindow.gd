@@ -38,7 +38,8 @@ func _on_AddButton_button_up() -> void:
 func add_kanji(kanji: String, meanings: String) -> bool:
 	# Get the data from the file and add the new kanji
 	var json_text = kanji_manager.read_file()
-	var json : Array = JSON.parse(json_text).result
+	var json_parse_result = JSON.parse(json_text).result
+	var json : Array = json_parse_result if json_parse_result != null else []
 	var kanji_json_data : Dictionary = kanji_manager.create_json_kanji_data(kanji, meanings)
 	json.append(kanji_json_data)
 	# Save it into the file
