@@ -51,6 +51,15 @@ focus_mode = 0
 custom_fonts/font = SubResource( 1 )
 text = "Add Kanji"
 
+[node name="OpenFile" type="Button" parent="VBoxContainer/MenuContainer/LeftContainer"]
+margin_left = 194.0
+margin_right = 366.0
+margin_bottom = 31.0
+focus_mode = 0
+custom_fonts/font = SubResource( 1 )
+enabled_focus_mode = 0
+text = "Open File Folder"
+
 [node name="RightContainer" type="HBoxContainer" parent="VBoxContainer/MenuContainer"]
 margin_left = 406.0
 margin_right = 780.0
