@@ -27,11 +27,15 @@ func rewrite_kanji_arr(new_arr: Array) -> void:
 	kanji_arr = new_arr
 
 
-func load_kanji_arr() -> void:
+func load_kanji_arr() -> bool:
 	var json := read_file()
-	var json_parse_result = JSON.parse(json).result
-	kanji_arr = json_parse_result if json_parse_result != null else []
+	var json_parse_result = JSON.parse(json)
+	if json_parse_result.error != OK or not json_parse_result.result is Array:
+		kanji_arr = []
+		return false
+	kanji_arr = json_parse_result.result
 	update_weights()
+	return true
 
 
 func save_kanji_arr(arr: Array = []) -> bool:

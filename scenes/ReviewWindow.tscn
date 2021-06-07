@@ -234,6 +234,7 @@ margin_right = 340.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 275, 0 )
 custom_fonts/font = SubResource( 10 )
+shortcut_in_tooltip = false
 shortcut = SubResource( 12 )
 text = "Wrong [K]"
 
@@ -243,5 +244,6 @@ margin_right = 715.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 275, 0 )
 custom_fonts/font = SubResource( 13 )
+shortcut_in_tooltip = false
 shortcut = SubResource( 15 )
 text = "Correct [Spacebar]"
