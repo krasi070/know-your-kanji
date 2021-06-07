@@ -43,6 +43,15 @@ func add_kanji(kanji) -> void:
 	kanji_arr.append(kanji)
 
 
+func search(query: String) -> Array:
+	var results := []
+	query = query.to_lower()
+	for kanji in kanji_arr:
+		if kanji["Kanji"] == query or _meaning_starts_with(kanji["Meaning"], query):
+			results.append(kanji)
+	return results
+
+
 func create_json_kanji_data(kanji: String, meanings: String) -> Dictionary:
 	return {
 		"Kanji": kanji,
@@ -98,6 +107,14 @@ func update_kanji_with_wrong(kanji: Dictionary) -> void:
 	kanji["Appearances"] += 1
 	kanji["CorrectPercentage"] = 100 * kanji["Correct"] / kanji["Appearances"]
 	kanji["Weight"] = _calculate_weight(kanji)
+
+
+func _meaning_starts_with(meaning_text: String, text: String) -> bool:
+	var meanings := meaning_text.split(", ", false)
+	for meaning in meanings:
+		if meaning.to_lower().begins_with(text):
+			return true
+	return false
 
 
 func _calculate_weight(kanji: Dictionary) -> float:
