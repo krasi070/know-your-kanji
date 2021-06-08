@@ -1,14 +1,13 @@
 extends VBoxContainer
 
-var kanji_input
-var meaninings_input
 var kanji_manager
+
+onready var kanji_input := $InputPanel/CenterContainer/InputContainer/KanjiInputField/LineEdit
+onready var meaninings_input := $InputPanel/CenterContainer/InputContainer/MeaningsInputField/TextEdit
 
 
 func _ready():
 	kanji_manager = load("res://scripts/KanjiManager.gd").new()
-	kanji_input = $InputPanel/InputContainer/KanjiInputRow/LineEdit
-	meaninings_input = $InputPanel/InputContainer/MeaningsInputRow/LineEdit
 	$AddButton.connect("button_up", self, "_on_AddButton_button_up")
 
 

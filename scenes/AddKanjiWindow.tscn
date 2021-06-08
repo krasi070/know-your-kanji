@@ -1,10 +1,35 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scripts/windows/AddKanjiWindow.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts/KosugiMaru-Regular.ttf" type="DynamicFontData" id=2]
 
-[sub_resource type="DynamicFont" id=1]
-size = 20
+[sub_resource type="DynamicFont" id=4]
+size = 40
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 32
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 32
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 32
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 32
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 32
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
@@ -21,6 +46,7 @@ font_data = ExtResource( 2 )
 [node name="AddKanjiWindow" type="VBoxContainer"]
 margin_right = 780.0
 margin_bottom = 549.0
+custom_constants/separation = 10
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -28,78 +54,82 @@ __meta__ = {
 
 [node name="InputPanel" type="PanelContainer" parent="."]
 margin_right = 780.0
-margin_bottom = 518.0
+margin_bottom = 500.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="InputContainer" type="VBoxContainer" parent="InputPanel"]
+[node name="CenterContainer" type="CenterContainer" parent="InputPanel"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 773.0
-margin_bottom = 511.0
+margin_bottom = 493.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="InputContainer" type="VBoxContainer" parent="InputPanel/CenterContainer"]
+margin_left = 83.0
+margin_top = 77.0
+margin_right = 683.0
+margin_bottom = 409.0
+rect_min_size = Vector2( 600, 0 )
+size_flags_horizontal = 3
 custom_constants/separation = 50
 alignment = 1
 
-[node name="AddKanjiLabel" type="Label" parent="InputPanel/InputContainer"]
-margin_top = 160.0
-margin_right = 766.0
-margin_bottom = 181.0
-custom_fonts/font = SubResource( 1 )
+[node name="AddKanjiLabel" type="Label" parent="InputPanel/CenterContainer/InputContainer"]
+margin_right = 600.0
+margin_bottom = 41.0
+custom_fonts/font = SubResource( 4 )
 text = "Add Kanji"
 align = 1
 valign = 1
 
-[node name="KanjiInputRow" type="HBoxContainer" parent="InputPanel/InputContainer"]
-margin_top = 231.0
-margin_right = 766.0
-margin_bottom = 262.0
-alignment = 1
+[node name="KanjiInputField" type="VBoxContainer" parent="InputPanel/CenterContainer/InputContainer"]
+margin_top = 91.0
+margin_right = 600.0
+margin_bottom = 171.0
+size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="InputPanel/InputContainer/KanjiInputRow"]
-margin_left = 151.0
-margin_top = 5.0
-margin_right = 211.0
-margin_bottom = 26.0
-custom_fonts/font = SubResource( 1 )
+[node name="Label" type="Label" parent="InputPanel/CenterContainer/InputContainer/KanjiInputField"]
+margin_right = 600.0
+margin_bottom = 33.0
+custom_fonts/font = SubResource( 5 )
 text = "Kanji "
-align = 1
 valign = 1
 
-[node name="LineEdit" type="LineEdit" parent="InputPanel/InputContainer/KanjiInputRow"]
-margin_left = 215.0
-margin_right = 615.0
-margin_bottom = 31.0
-rect_min_size = Vector2( 400, 0 )
-custom_fonts/font = SubResource( 1 )
+[node name="LineEdit" type="LineEdit" parent="InputPanel/CenterContainer/InputContainer/KanjiInputField"]
+margin_top = 37.0
+margin_right = 600.0
+margin_bottom = 80.0
+custom_fonts/font = SubResource( 6 )
 
-[node name="MeaningsInputRow" type="HBoxContainer" parent="InputPanel/InputContainer"]
-margin_top = 312.0
-margin_right = 766.0
-margin_bottom = 343.0
-alignment = 1
+[node name="MeaningsInputField" type="VBoxContainer" parent="InputPanel/CenterContainer/InputContainer"]
+margin_top = 221.0
+margin_right = 600.0
+margin_bottom = 332.0
+size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="InputPanel/InputContainer/MeaningsInputRow"]
-margin_left = 136.0
-margin_top = 5.0
-margin_right = 226.0
-margin_bottom = 26.0
-custom_fonts/font = SubResource( 1 )
+[node name="Label" type="Label" parent="InputPanel/CenterContainer/InputContainer/MeaningsInputField"]
+margin_right = 600.0
+margin_bottom = 33.0
+custom_fonts/font = SubResource( 7 )
 text = "Meanings "
-align = 1
 valign = 1
 
-[node name="LineEdit" type="LineEdit" parent="InputPanel/InputContainer/MeaningsInputRow"]
-margin_left = 230.0
-margin_right = 630.0
-margin_bottom = 31.0
-rect_min_size = Vector2( 400, 0 )
-custom_fonts/font = SubResource( 1 )
+[node name="TextEdit" type="TextEdit" parent="InputPanel/CenterContainer/InputContainer/MeaningsInputField"]
+margin_top = 37.0
+margin_right = 600.0
+margin_bottom = 111.0
+rect_min_size = Vector2( 0, 74 )
+custom_fonts/font = SubResource( 8 )
+smooth_scrolling = true
+wrap_enabled = true
 
 [node name="AddButton" type="Button" parent="."]
-margin_top = 522.0
+margin_top = 510.0
 margin_right = 780.0
 margin_bottom = 549.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 9 )
 text = "Add"
 
 [node name="MessageDialog" type="WindowDialog" parent="."]
