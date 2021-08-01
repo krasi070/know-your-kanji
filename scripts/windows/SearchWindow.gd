@@ -70,11 +70,15 @@ func _show_page() -> void:
 
 func _next_page() -> void:
 	page = min(page + 1, last_page)
+	self.scroll_vertical = 0
+	self.update()
 	_show_page()
 
 
 func _previous_page() -> void:
 	page = max(page - 1, 1)
+	self.scroll_vertical = 0
+	self.update()
 	_show_page()
 
 
